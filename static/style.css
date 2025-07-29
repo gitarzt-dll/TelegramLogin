@@ -24,20 +24,21 @@ body {
 
 /* Логотип */
 .logo {
-    width: 100px;
-    height: 100px;
+    width: 120px;    /* чуть больше */
+    height: 120px;
     margin: 0 auto 25px;
     background: url('https://telegram.org/img/t_logo.png') no-repeat center center;
     background-size: contain;
 }
-
 
 /* Заголовок */
 h1 {
     font-size: 48px;
     font-weight: 700;
     margin-bottom: 8px;
+    white-space: nowrap; /* запрет переноса */
 }
+
 
 /* Текст под заголовком */
 .under-title-text {
