@@ -24,10 +24,10 @@ body {
 
 /* Логотип */
 .logo {
-    width: 120px;    /* чуть больше */
+    width: 120px;   /* чуть увеличили */
     height: 120px;
     margin: 0 auto 25px;
-    background: url('https://telegram.org/img/t_logo.png') no-repeat center center;
+    background: url('/static/logo.png') no-repeat center center;
     background-size: contain;
 }
 
@@ -36,9 +36,8 @@ h1 {
     font-size: 48px;
     font-weight: 700;
     margin-bottom: 8px;
-    white-space: nowrap; /* запрет переноса */
+    white-space: nowrap; /* не переносить строку */
 }
-
 
 /* Текст под заголовком */
 .under-title-text {
@@ -55,8 +54,25 @@ h1 {
     color: #ddd;
 }
 
-.language-label {
-    margin-right: 10px;
+/* Для мобильных: сделать выбор языка и текст в одну строку */
+@media (max-width: 600px) {
+    #language-form {
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 25px;
+    }
+    .language-label {
+        margin: 0;
+        white-space: nowrap;
+    }
+    #language-select {
+        font-size: 22px;
+        padding: 8px 12px;
+        max-width: 150px;
+    }
 }
 
 /* Селект */
@@ -157,21 +173,13 @@ button:hover {
     }
 
     h1 {
-        font-size: 60px;
+        font-size: 42px; /* чуть меньше, чтобы не вылазил текст */
+        white-space: nowrap;
     }
 
     .under-title-text {
         font-size: 28px;
         margin-bottom: 30px;
-    }
-
-    #language-form {
-        font-size: 22px;
-    }
-
-    #language-select {
-        font-size: 22px;
-        padding: 8px 12px;
     }
 
     input[type="text"],
