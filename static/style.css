@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
 body {
-    background-color: #1e1e1e;
-    color: white;
-    font-family: sans-serif;
+    background-color: #f3f6f8;
+    font-family: 'Roboto', sans-serif;
+    color: #1c1c1c;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,48 +12,69 @@ body {
 }
 
 .container {
+    background-color: white;
+    width: 360px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    padding: 40px 30px;
     text-align: center;
-    background-color: #2c2c2c;
-    padding: 30px;
-    border-radius: 10px;
-    width: 300px;
-}
-
-input, button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin: 15px 0;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-}
-
-button {
-    background-color: #8266f1;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-button:hover {
-    background-color: #6e55db;
-}
-
-.error {
-    color: #ff6b6b;
-}
-
-.success {
-    color: #6bff7b;
 }
 
 .logo {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 24px;
     background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 20px;
+}
+
+h1 {
+    font-weight: 500;
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 20px;
+    border: 1.5px solid #d1d9e6;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #2a8ef6;
+    box-shadow: 0 0 8px rgba(42, 142, 246, 0.4);
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: #2a8ef6;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #1c6fd8;
+}
+
+.error {
+    color: #ff3860;
+    margin-bottom: 15px;
+}
+
+.success {
+    color: #23d160;
+    margin-bottom: 15px;
 }
