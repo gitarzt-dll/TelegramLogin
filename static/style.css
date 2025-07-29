@@ -33,10 +33,10 @@ body {
 
 /* Заголовок */
 h1 {
-    font-size: 28px; /* увеличил немного */
+    font-size: 32px; /* Увеличен размер текста */
     font-weight: 700;
     margin-bottom: 8px;
-    white-space: nowrap; /* не переносим текст */
+    white-space: nowrap;
     overflow: visible;
     text-overflow: clip;
 }
@@ -60,7 +60,6 @@ h1 {
     gap: 10px;
 }
 
-/* Надпись "Выберите язык:" */
 .language-label {
     margin: 0;
     white-space: nowrap;
@@ -134,7 +133,7 @@ button:hover {
     background-color: #006699;
 }
 
-/* Чекбокс с текстом "Запомнить меня" */
+/* Чекбокс */
 .remember-me {
     font-size: 20px;
     display: flex;
@@ -165,7 +164,7 @@ button:hover {
     }
 
     h1 {
-        font-size: 32px;
+        font-size: 38px; /* Тоже увеличен размер */
         white-space: nowrap;
     }
 
