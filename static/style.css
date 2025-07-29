@@ -1,7 +1,7 @@
+/* Общие стили контейнера и текста */
 body {
-    background-color: #1e1e1e;
-    color: white;
-    font-family: sans-serif;
+    background: #fff;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,152 +10,181 @@ body {
 }
 
 .container {
+    max-width: 480px;
+    width: 100%;
+    padding: 30px 40px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 10px;
     text-align: center;
-    background-color: #2c2c2c;
-    padding: 60px 50px;
-    border-radius: 15px;
-    width: 900px;
-    box-sizing: border-box;
+    background-color: #f9f9f9;
 }
 
+/* Логотип (если нужен) */
 .logo {
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg');
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    background: url('/static/logo.png') no-repeat center center;
     background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 240px;
-    height: 240px;
-    margin: 0 auto 40px;
 }
 
+/* Заголовок */
 h1 {
-    margin-bottom: 30px;
-    font-size: 72px;
+    font-size: 48px;
+    margin-bottom: 10px;
     font-weight: 700;
-    line-height: 1.1;
+    color: #222;
 }
 
-/* Увеличиваем все input и button */
-input[type="text"],
-input[type="password"],
-input[type="checkbox"],
-button {
-    font-size: 48px;
+/* Текст под заголовком */
+.under-title-text {
+    font-size: 20px;
+    margin-bottom: 30px;
+    color: #444;
 }
 
-input[type="text"],
-input[type="password"] {
-    display: block;
-    width: 100%;
-    padding: 30px;
-    margin: 30px 0;
-    border-radius: 10px;
-    border: none;
-    box-sizing: border-box;
-}
-
-/* Placeholder большой */
-input::placeholder {
-    font-size: 48px;
-    color: #999;
-}
-
-button {
-    background-color: #8266f1;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-    padding: 30px;
-    border-radius: 10px;
-    width: 100%;
-    margin-top: 30px;
-}
-
-button:hover {
-    background-color: #6e55db;
-}
-
-/* Фикс для чекбокса и label "Запомнить меня" */
-label {
-    font-size: 40px;
-    user-select: none;
+/* Форма выбора языка */
+#language-form {
+    margin-bottom: 30px;
+    text-align: left;
+    font-size: 20px;
     display: flex;
     align-items: center;
-    gap: 20px;
-    justify-content: center;  /* чтобы по центру */
-    margin-top: 15px;
+    gap: 10px;
+    justify-content: center;
 }
 
-/* Сам чекбокс подлиннее и больше */
-input[type="checkbox"] {
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
+.language-label {
+    font-weight: 600;
+}
+
+#language-select {
+    font-size: 20px;
+    padding: 5px 10px;
 }
 
 /* Ошибки и успех */
-.error, .success {
-    font-size: 36px;
-    margin-top: 10px;
+.error {
+    color: #d9534f;
+    font-weight: 600;
+    margin-bottom: 20px;
 }
 
-p.small-text {
-    font-size: 36px;
-    margin-top: 20px;
+.success {
+    color: #28a745;
+    font-weight: 600;
+    margin-bottom: 20px;
 }
 
-/* Центрирование текста под заголовком */
-p.small-text {
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+/* Общие стили для форм */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+/* Поля ввода */
+input[type="text"],
+input[type="password"] {
+    font-size: 24px;
+    padding: 12px 15px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+/* Кнопки */
+button {
+    font-size: 28px;
+    padding: 14px 25px;
+    width: 100%;
+    max-width: 400px;
+    cursor: pointer;
+    background-color: #0088cc;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #006699;
+}
+
+/* Чекбокс с текстом "Запомнить меня" */
+.remember-me {
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    width: 100%;
+    max-width: 400px;
+    justify-content: flex-start;
+}
+
+.remember-me input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
 }
 
 /* Адаптив для мобильных */
 @media (max-width: 600px) {
     .container {
-        width: 95vw;
-        padding: 30px 20px;
-    }
-
-    .logo {
-        width: 80px;
-        height: 80px;
-        margin-bottom: 20px;
+        max-width: 100%;
+        padding: 20px;
+        border-radius: 0;
+        height: 100vh;
+        justify-content: center;
     }
 
     h1 {
-        font-size: 24px;
-        margin-bottom: 10px;
+        font-size: 60px;
+    }
+
+    .under-title-text {
+        font-size: 28px;
+        margin-bottom: 40px;
+    }
+
+    #language-form {
+        font-size: 28px;
+        gap: 15px;
+    }
+
+    #language-select {
+        font-size: 28px;
+        padding: 10px 15px;
     }
 
     input[type="text"],
-    input[type="password"],
+    input[type="password"] {
+        font-size: 36px;
+        padding: 20px 15px;
+        max-width: 100%;
+    }
+
     button {
-        font-size: 16px;
-        padding: 10px;
-        margin: 15px 0;
+        font-size: 36px;
+        padding: 20px;
+        max-width: 100%;
     }
 
-    input::placeholder {
-        font-size: 16px;
-    }
-
-    label {
-        font-size: 14px;
-        gap: 8px;
-        margin-top: 8px;
+    .remember-me {
+        font-size: 28px;
+        gap: 15px;
+        max-width: 100%;
         justify-content: flex-start;
     }
 
-    input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-    }
-
-    .error, .success, p.small-text {
-        font-size: 14px;
-        margin-top: 8px;
+    .remember-me input[type="checkbox"] {
+        width: 28px;
+        height: 28px;
     }
 }
