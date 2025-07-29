@@ -12,19 +12,37 @@ body {
 .container {
     text-align: center;
     background-color: #2c2c2c;
-    padding: 40px;
-    border-radius: 10px;
-    width: 350px;
+    padding: 60px 50px; /* увеличен padding */
+    border-radius: 15px;
+    width: 900px; /* примерно в 3 раза шире */
+    box-sizing: border-box;
+}
+
+.logo {
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 240px; /* увеличен размер лого */
+    height: 240px;
+    margin: 0 auto 40px;
+}
+
+h1 {
+    margin-bottom: 30px;
+    font-size: 72px; /* в 3 раза больше */
+    font-weight: 700;
+    line-height: 1.1;
 }
 
 input, button {
     display: block;
     width: 100%;
-    padding: 12px;
-    margin: 15px 0;
-    border-radius: 5px;
+    padding: 30px; /* увеличена высота полей */
+    margin: 30px 0;
+    border-radius: 10px;
     border: none;
-    font-size: 16px;
+    font-size: 48px; /* увеличен шрифт */
     box-sizing: border-box;
 }
 
@@ -40,69 +58,64 @@ button:hover {
     background-color: #6e55db;
 }
 
+label {
+    font-size: 40px; /* текст галочки тоже увеличен */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+    user-select: none;
+}
+
 .error {
     color: #ff6b6b;
+    font-size: 36px;
+    margin-top: 10px;
 }
 
 .success {
     color: #6bff7b;
-}
-
-.logo {
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 20px;
-}
-
-label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
+    font-size: 36px;
     margin-top: 10px;
-    cursor: pointer;
 }
 
-label input[type="checkbox"] {
-    margin-right: 8px;
-    transform: scale(1);
-}
-
-/* Текст под заголовком */
 p.small-text {
-    font-size: 0.9rem;
-    margin-top: 10px;
-    color: #ccc;
+    font-size: 36px;
+    margin-top: 20px;
 }
 
 /* Адаптив для телефонов */
 @media (max-width: 600px) {
     .container {
-        width: 90vw;       /* почти вся ширина экрана */
-        padding: 60px 30px;
-        font-size: 1.5rem; /* увеличить шрифт */
-        border-radius: 15px;
+        width: 95vw;
+        padding: 30px 20px;
     }
-    
-    input, button {
-        font-size: 1.3rem;
-        padding: 18px;
+
+    .logo {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 20px;
     }
-    
+
     h1 {
-        font-size: 2.2rem;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    input, button {
+        padding: 10px;
+        margin: 15px 0;
+        font-size: 16px;
     }
 
     label {
-        font-size: 1.2rem;
+        font-size: 14px;
+        gap: 8px;
+        margin-top: 8px;
     }
-    
-    label input[type="checkbox"] {
-        transform: scale(1.5);
-        margin-right: 12px;
+
+    .error, .success, p.small-text {
+        font-size: 14px;
+        margin-top: 8px;
     }
 }
