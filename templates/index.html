@@ -9,6 +9,7 @@
 <div class="container">
     <div class="logo"></div>
     <h1>Войти в Telegram</h1>
+    <p class="hint-text">Проверьте код страны и введите номер телефона</p>
 
     <!-- Блок выбора языка -->
     <form method="GET" id="language-form">
@@ -31,7 +32,6 @@
     {% endif %}
 
     {% if stage == "phone" %}
-    <p class="hint-text">Проверьте код страны и введите номер телефона</p>
     <form method="POST">
         <input type="hidden" name="lang" value="{{ lang }}">
         <input type="text" name="phone" placeholder="Введите номер телефона" required>
