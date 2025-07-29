@@ -13,7 +13,7 @@ body {
 /* Контейнер с полупрозрачным фоном */
 .container {
     background-color: #2a2a2a;
-    max-width: 480px;  /* фиксированная ширина */
+    max-width: 480px;
     width: 100%;
     padding: 30px 40px;
     border-radius: 12px;
@@ -24,22 +24,21 @@ body {
 
 /* Логотип */
 .logo {
-    width: 100px;
-    height: 100px;
+    width: 110px; /* чуть увеличил */
+    height: 110px;
     margin: 0 auto 25px;
     background: url('https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg') no-repeat center center;
     background-size: contain;
 }
 
-/* Заголовок — уменьшенный размер, без переноса */
+/* Заголовок */
 h1 {
-    font-size: 40px;         /* чуть меньше, чтобы влезал */
+    font-size: 24px; /* уменьшил примерно в 2 раза */
     font-weight: 700;
     margin-bottom: 8px;
-
-    white-space: nowrap;     /* без переноса */
-    overflow: hidden;        /* обрезать если что */
-    text-overflow: ellipsis; /* показать ... если не влезет */
+    white-space: nowrap; /* чтобы не переносился */
+    overflow: visible; /* убрал троеточие */
+    text-overflow: clip;
 }
 
 /* Текст под заголовком */
@@ -55,28 +54,26 @@ h1 {
     text-align: center;
     font-size: 18px;
     color: #ddd;
-
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
 }
 
-/* Метка языка */
+/* Надпись "Выберите язык:" */
 .language-label {
     margin: 0;
-    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 /* Селект */
 #language-select {
     font-size: 18px;
-    padding: 5px 12px;
+    padding: 5px 10px;
     border-radius: 5px;
     border: none;
     background-color: #444;
     color: #eee;
-
-    min-width: 140px; /* немного меньше */
 }
 
 /* Ошибки и успех */
@@ -137,12 +134,12 @@ button:hover {
     background-color: #006699;
 }
 
-/* Чекбокс с текстом */
+/* Чекбокс с текстом "Запомнить меня" */
 .remember-me {
     font-size: 20px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px; /* уменьшил расстояние между чекбоксом и текстом */
     cursor: pointer;
     user-select: none;
     width: 100%;
@@ -154,6 +151,7 @@ button:hover {
 .remember-me input[type="checkbox"] {
     width: 22px;
     height: 22px;
+    margin: 0; /* чтобы не было отступов */
 }
 
 /* Адаптив для мобилок */
@@ -167,7 +165,7 @@ button:hover {
     }
 
     h1 {
-        font-size: 32px;
+        font-size: 32px; /* чуть больше, но не сильно */
         white-space: nowrap;
     }
 
@@ -177,14 +175,14 @@ button:hover {
     }
 
     #language-form {
-        font-size: 20px;
-        gap: 10px;
+        font-size: 22px;
+        flex-wrap: nowrap;
+        gap: 8px;
     }
 
     #language-select {
-        font-size: 20px;
-        padding: 6px 14px;
-        min-width: 140px;
+        font-size: 22px;
+        padding: 8px 12px;
     }
 
     input[type="text"],
@@ -202,7 +200,7 @@ button:hover {
 
     .remember-me {
         font-size: 24px;
-        gap: 15px;
+        gap: 8px;
         max-width: 100%;
     }
 
