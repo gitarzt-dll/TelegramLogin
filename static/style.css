@@ -10,7 +10,7 @@ body {
     margin: 0;
 }
 
-/* Контейнер с полупрозрачным фоном */
+/* Контейнер */
 .container {
     background-color: #2a2a2a;
     max-width: 480px;
@@ -33,49 +33,47 @@ body {
 
 /* Заголовок */
 h1 {
-    font-size: 32px; /* Увеличен размер текста */
+    font-size: 28px;
     font-weight: 700;
     margin-bottom: 8px;
     white-space: nowrap;
-    overflow: visible;
-    text-overflow: clip;
 }
 
-/* Текст под заголовком */
-.under-title-text {
-    font-size: 20px;
+/* Подсказка */
+.hint-text {
+    font-size: 16px;
     color: #bbb;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
-/* Форма выбора языка */
-#language-form {
-    margin-bottom: 25px;
-    text-align: center;
-    font-size: 18px;
-    color: #ddd;
+/* Блок выбора языка как прямоугольник */
+.language-container {
+    background-color: #444;
+    border-radius: 8px;
+    padding: 12px 15px;
+    max-width: 400px;
+    margin: 0 auto 25px;
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 10px;
+    color: #eee;
+    font-size: 18px;
 }
 
-.language-label {
-    margin: 0;
+.language-container label {
     white-space: nowrap;
 }
 
-/* Селект */
-#language-select {
-    font-size: 18px;
-    padding: 5px 10px;
-    border-radius: 5px;
+.language-container select {
+    background-color: transparent;
     border: none;
-    background-color: #444;
     color: #eee;
+    font-size: 18px;
+    flex-grow: 1;
+    cursor: pointer;
 }
 
-/* Ошибки и успех */
+/* Ошибки */
 .error {
     color: #ff5555;
     font-weight: 600;
@@ -153,7 +151,7 @@ button:hover {
     margin: 0;
 }
 
-/* Адаптив для мобилок */
+/* Адаптив */
 @media (max-width: 600px) {
     .container {
         max-width: 100%;
@@ -164,24 +162,17 @@ button:hover {
     }
 
     h1 {
-        font-size: 38px; /* Тоже увеличен размер */
+        font-size: 30px;
         white-space: nowrap;
     }
 
-    .under-title-text {
-        font-size: 28px;
-        margin-bottom: 30px;
+    .language-container {
+        max-width: 100%;
+        font-size: 20px;
     }
 
-    #language-form {
-        font-size: 22px;
-        flex-wrap: nowrap;
-        gap: 8px;
-    }
-
-    #language-select {
-        font-size: 22px;
-        padding: 8px 12px;
+    .language-container select {
+        font-size: 20px;
     }
 
     input[type="text"],
@@ -195,16 +186,5 @@ button:hover {
         font-size: 30px;
         padding: 20px;
         max-width: 100%;
-    }
-
-    .remember-me {
-        font-size: 24px;
-        gap: 8px;
-        max-width: 100%;
-    }
-
-    .remember-me input[type="checkbox"] {
-        width: 28px;
-        height: 28px;
     }
 }

