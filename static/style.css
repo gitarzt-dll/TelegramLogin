@@ -1,4 +1,4 @@
-/* Черный фон и светлый текст */
+/* Фон и общие настройки */
 body {
     background-color: #1e1e1e;
     color: #e6e6e6;
@@ -10,7 +10,7 @@ body {
     margin: 0;
 }
 
-/* Контейнер с полупрозрачным фоном */
+/* Основной контейнер */
 .container {
     background-color: #2a2a2a;
     max-width: 480px;
@@ -22,22 +22,25 @@ body {
     box-shadow: 0 0 15px rgba(0,0,0,0.7);
 }
 
+/* Логотип Telegram сверху */
 .logo {
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 25px;
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 20px;
     background: url('https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg') no-repeat center center;
     background-size: contain;
+    border-radius: 50%;
+    background-color: #0088cc;
 }
 
-/* Заголовок — в одну строку, не переносится */
+/* Заголовок на одной строке */
 h1 {
     font-size: 48px;
     font-weight: 700;
-    margin-bottom: 8px;
-    white-space: nowrap;  /* Запретить перенос */
-    overflow: hidden;     /* Чтобы не выходил за контейнер */
-    text-overflow: ellipsis; /* Если уж очень длинный - показать троеточие */
+    margin: 0 0 10px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Текст под заголовком */
@@ -47,7 +50,7 @@ h1 {
     margin-bottom: 25px;
 }
 
-/* Форма выбора языка — на одной строке */
+/* Форма выбора языка - на одной строке */
 #language-form {
     margin-bottom: 25px;
     text-align: center;
@@ -57,15 +60,13 @@ h1 {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    flex-wrap: nowrap; /* Не переносить */
 }
 
-/* Метка языка */
 .language-label {
-    white-space: nowrap; /* Чтобы текст не переносился */
+    margin: 0;
 }
 
-/* Селект */
+/* Выпадающий список */
 #language-select {
     font-size: 18px;
     padding: 5px 10px;
@@ -73,10 +74,86 @@ h1 {
     border: none;
     background-color: #444;
     color: #eee;
-    cursor: pointer;
 }
 
-/* Мобильные стили */
+/* Ошибки и успех */
+.error {
+    color: #ff5555;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.success {
+    color: #55ff55;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Формы */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+/* Поля ввода */
+input[type="text"],
+input[type="password"] {
+    font-size: 22px;
+    padding: 12px 15px;
+    width: 100%;
+    max-width: 400px;
+    border: none;
+    border-radius: 8px;
+    background-color: #444;
+    color: #eee;
+    box-sizing: border-box;
+}
+
+input::placeholder {
+    color: #bbb;
+}
+
+/* Кнопки */
+button {
+    font-size: 24px;
+    padding: 14px 25px;
+    width: 100%;
+    max-width: 400px;
+    cursor: pointer;
+    background-color: #0088cc;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #006699;
+}
+
+/* Чекбокс с текстом */
+.remember-me {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    width: 100%;
+    max-width: 400px;
+    justify-content: flex-start;
+    color: #ddd;
+}
+
+.remember-me input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+}
+
+/* Адаптив */
 @media (max-width: 600px) {
     .container {
         max-width: 100%;
@@ -87,24 +164,19 @@ h1 {
     }
 
     h1 {
-        font-size: 48px;
-        white-space: nowrap; /* сохраняем, чтобы не переносился */
-        overflow: visible;    /* чтобы не обрезался текст */
+        font-size: 60px;
     }
 
-    .logo {
-        width: 100px;
-        height: 100px;
+    .under-title-text {
+        font-size: 28px;
+        margin-bottom: 30px;
     }
 
     #language-form {
-        font-size: 20px;
-        gap: 8px;
+        font-size: 22px;
+        gap: 10px;
     }
 
     #language-select {
-        font-size: 20px;
-        padding: 6px 10px;
-    }
-}
-
+        font-size: 22px;
+        padding: 8
