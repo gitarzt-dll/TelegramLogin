@@ -7,69 +7,30 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .container {
     text-align: center;
     background-color: #2c2c2c;
     padding: 40px 30px;
-    border-radius: 15px;
-    width: 350px;
-    box-shadow: 0 0 20px rgba(130, 102, 241, 0.5);
+    border-radius: 12px;
+    width: 400px;
+    max-width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 0 15px rgba(130, 102, 241, 0.5);
 }
 
-.logo {
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 25px;
-}
-
-h1 {
-    margin-bottom: 8px;
-    font-weight: 700;
-    font-size: 28px;
-}
-
-.subtitle {
-    font-size: 14px;
-    color: #aaa;
-    margin-bottom: 20px;
-}
-
-.language-select {
-    margin-bottom: 20px;
-    text-align: left;
-    color: #ccc;
-    font-size: 14px;
-}
-
-.language-select label {
-    margin-right: 10px;
-}
-
-input[type="tel"],
-input[type="text"],
-input[type="password"] {
+input, button {
     display: block;
     width: 100%;
-    padding: 12px 15px;
-    margin: 15px 0;
-    border-radius: 8px;
+    padding: 14px 12px;
+    margin: 18px 0;
+    border-radius: 6px;
     border: none;
-    font-size: 16px;
-    background-color: #444;
-    color: white;
+    font-size: 18px;
     box-sizing: border-box;
-}
-
-input[type="tel"]::placeholder,
-input[type="text"]::placeholder,
-input[type="password"]::placeholder {
-    color: #bbb;
 }
 
 button {
@@ -77,11 +38,6 @@ button {
     color: white;
     cursor: pointer;
     font-weight: 700;
-    font-size: 18px;
-    padding: 14px;
-    width: 100%;
-    border-radius: 10px;
-    border: none;
     transition: background-color 0.3s ease;
 }
 
@@ -91,28 +47,60 @@ button:hover {
 
 .error {
     color: #ff6b6b;
-    margin-top: -10px;
+    font-weight: 600;
     margin-bottom: 10px;
 }
 
 .success {
     color: #6bff7b;
-    margin-top: -10px;
+    font-weight: 600;
     margin-bottom: 10px;
 }
 
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    color: #ccc;
-    font-size: 14px;
-    cursor: pointer;
-    user-select: none;
+.logo {
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 30px;
 }
 
-.checkbox-label input[type="checkbox"] {
-    margin-right: 10px;
+/* Стиль для чекбокса "Запомнить меня" */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    user-select: none;
+    color: white;
+}
+
+.checkbox-container input[type="checkbox"] {
     width: 18px;
     height: 18px;
-    accent-color: #8266f1; /* цвет галочки */
+    cursor: pointer;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 480px) {
+    .container {
+        width: 100%;
+        padding: 30px 20px;
+        border-radius: 8px;
+    }
+
+    input, button {
+        font-size: 16px;
+        padding: 12px 10px;
+    }
+
+    .logo {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 20px;
+    }
 }
