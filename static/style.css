@@ -27,9 +27,10 @@ body {
     width: 100px;
     height: 100px;
     margin: 0 auto 25px;
-    background: url('/static/logo.png') no-repeat center center;
+    background: url('https://telegram.org/img/t_logo.png') no-repeat center center;
     background-size: contain;
 }
+
 
 /* Заголовок */
 h1 {
