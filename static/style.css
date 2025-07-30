@@ -10,17 +10,17 @@ body {
     margin: 0;
 }
 
-/* Контейнер */
 .container {
     background-color: #2a2a2a;
     max-width: 480px;
     width: 100%;
-    padding: 30px 40px;
-    border-radius: 12px;
+    padding: 15px 40px; /* уменьшил сверху и снизу padding (было 30px сверху и снизу) */
+    border-radius: 6px 6px 12px 12px;
     box-sizing: border-box;
     text-align: center;
     box-shadow: 0 0 15px rgba(0,0,0,0.7);
 }
+
 
 /* Логотип */
 .logo {
