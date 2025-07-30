@@ -68,18 +68,14 @@ async def create_and_connect_client(session_name, phone):
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        phone_raw = request.form["phone"]
+        phone_raw = request.form["phone"].strip()
 
-        # Убираем все символы кроме цифр
-        digits = re.sub(r'\D', '', phone_raw)
+        # Оставляем + если он в начале, остальные символы — только цифры
+        cleaned = re.sub(r'[^\d+]', '', phone_raw)
+        if not cleaned.startswith('+'):
+            cleaned = '+' + cleaned  # Добавляем +, если его не было
 
-        # Если номер начинается с 8 и длина 11 -> меняем на 7 (российский формат)
-        if digits.startswith('8') and len(digits) == 11:
-            digits = '7' + digits[1:]
-
-        # Добавляем плюс в начале
-        phone = '+' + digits
-
+        phone = cleaned
         session_name = f"sessions/{phone}"
 
         try:
@@ -89,6 +85,7 @@ def index():
             return render_template("index.html", stage="phone", error=str(e))
 
     return render_template("index.html", stage="phone")
+
 
 
 @app.route("/code", methods=["POST"])
